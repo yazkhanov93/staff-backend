@@ -6,6 +6,8 @@ from rest_framework.decorators import permission_classes
 from rest_framework import status
 from django.contrib.auth.hashers import make_password
 from django.contrib.auth.models import User
+from django.db.models import Q
+from drf_yasg import openapi
 from drf_yasg.utils import swagger_auto_schema
 
 from .serializers import *
@@ -49,10 +51,35 @@ class StaffDetailView(APIView):
 
 
 class StaffListView(APIView):
-
+    search = openapi.Parameter("search", in_=openapi.IN_QUERY, type=openapi.TYPE_STRING,
+                               description="Global Search")
+    stardet_day = openapi.Parameter("stardet_day", in_=openapi.IN_QUERY, type=openapi.TYPE_STRING,
+                               description="Format yy-mm-dd")
+    birthday = openapi.Parameter("birthday", in_=openapi.IN_QUERY, type=openapi.TYPE_STRING,
+                               description="Format yy-mm-dd")
+    profession = openapi.Parameter("profession", in_=openapi.IN_QUERY, type=openapi.TYPE_INTEGER,
+                               description="Profession")
+    department = openapi.Parameter("department", in_=openapi.IN_QUERY, type=openapi.TYPE_INTEGER,
+                               description="department")
+    @swagger_auto_schema(manual_parameters=[search,stardet_day,birthday,profession,department])
     def get(self, request):
         try:
             staff = Staff.objects.all()
+            if request.query_params.get("search", None):
+                search = request.query_params.get("search", None)
+                staff = staff.filter(Q(fullname=search)|Q(working_for__icontains=search)|Q(languages__icontains=search)|Q(another_country__icontains=search)|Q(deputy=search)|Q(party_member=search)|Q(prev_place=search))
+            if request.query_params.get("stardet_day", None):
+                stardet_day = request.query_params.get("stardet_day", None)
+                staff = staff.filter(stardet_day=stardet_day)
+            if request.query_params.get("birthday", None):
+                birthday = request.query_params.get("birthday", None)
+                staff = staff.filter(birthday=birthday)
+            if request.query_params.get("profession", None):
+                profession = request.query_params.get("profession", None)
+                staff = staff.filter(profession=profession)
+            if request.query_params.get("department", None):
+                department = request.query_params.get("department", None)
+                staff = staff.filter(department=department)
             serializer = StaffListSerializer(staff, many=True)
             return Response(serializer.data)
         except Exception as e:
