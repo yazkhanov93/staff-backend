@@ -27,7 +27,7 @@ SECRET_KEY = 'django-insecure-+=(k=kj6f41x=@b4n0-=*zgr0ry*5wrxbz^lovk0!ov!8&3*)n
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -47,6 +47,8 @@ INSTALLED_APPS = [
 
     'staff',
 ]
+
+CSRF_TRUSTED_ORIGINS = ["http://132.148.79.178", "http://127.0.0.1", "http://localhost"]
 
 REST_FRAMEWORK = {
     'TEST_REQUEST_DEFAULT_FORMAT': 'json',
@@ -109,6 +111,7 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'core.urls'
+CORS_ALLOW_ALL_ORIGINS = True
 
 TEMPLATES = [
     {
