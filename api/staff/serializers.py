@@ -4,6 +4,18 @@ from django.contrib.auth.models import User
 from staff.models import *
 
 
+class BithdaySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Staff
+        fields = ["bithday"]
+
+
+class StardetDaySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Staff
+        fields = ["stardet_day"]
+
+
 class DepartmentSerializer(serializers.ModelSerializer):
     class Meta:
         model = Department
