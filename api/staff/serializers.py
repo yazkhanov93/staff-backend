@@ -4,10 +4,10 @@ from django.contrib.auth.models import User
 from staff.models import *
 
 
-class BithdaySerializer(serializers.ModelSerializer):
+class BirthdaySerializer(serializers.ModelSerializer):
     class Meta:
         model = Staff
-        fields = ["bithday"]
+        fields = ["birthday"]
 
 
 class StardetDaySerializer(serializers.ModelSerializer):

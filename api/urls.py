@@ -4,7 +4,7 @@ from api.staff.views import *
 
 
 urlpatterns = [
-    path("bithday/", BirthdayView.as_view(), name="birthday"),
+    path("birthday/", BirthdayView.as_view(), name="birthday"),
     path("started-day/", StardetDayView.as_view(), name="started-day"),
     path("user-profile/", UserProfileView.as_view(), name="user-profile"),
     path("staff-detail/<int:pk>/", StaffDetailView.as_view(), name="staff-detail"),

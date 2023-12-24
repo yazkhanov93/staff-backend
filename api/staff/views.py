@@ -91,7 +91,7 @@ class BirthdayView(APIView):
     def get(self, request):
         try:
             birthday = Staff.objects.all().only("birthday")
-            serializer = BithdaySerializer(birthday, many=True)
+            serializer = BirthdaySerializer(birthday, many=True)
             return Response(serializer.data)
         except Exception as e:
             raise ParseError(e)
@@ -101,8 +101,8 @@ class StardetDayView(APIView):
 
     def get(self, request):
         try:
-            started_day = Staff.objects.all().only("started_day")
-            serializer = StardetDaySerializer(started_day, many=True)
+            stardet_day = Staff.objects.all().only("stardet_day")
+            serializer = StardetDaySerializer(stardet_day, many=True)
             return Response(serializer.data)
         except Exception as e:
             raise ParseError(e)
