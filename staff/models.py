@@ -30,7 +30,7 @@ class Staff(models.Model):
     profession = models.ForeignKey(Profession, on_delete=models.CASCADE, verbose_name="Profession", related_name="profession", blank=True, null=True)
     department = models.ForeignKey(Department, on_delete=models.CASCADE,verbose_name="Department", related_name="department", blank=True, null=True)
     birthday = models.DateField(auto_now_add=False, verbose_name="Bithday", blank=True, null=True)
-    stardet_day = models.DateField(auto_now_add=False, verbose_name="Started Day", blank=True, null=True)
+    started_day = models.DateField(auto_now_add=False, verbose_name="Started Day", blank=True, null=True)
     working_for = models.CharField(max_length=255, verbose_name="Working For", blank=True, null=True)
     languages = models.CharField(max_length=255, verbose_name="Languages", blank=True, null=True)
     another_country = models.CharField(max_length=255, verbose_name="Another Country", blank=True, null=True)

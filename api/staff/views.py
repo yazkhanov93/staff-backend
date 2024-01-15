@@ -53,7 +53,7 @@ class StaffDetailView(APIView):
 class StaffListView(APIView):
     search = openapi.Parameter("search", in_=openapi.IN_QUERY, type=openapi.TYPE_STRING,
                                description="Global Search")
-    stardet_day = openapi.Parameter("stardet_day", in_=openapi.IN_QUERY, type=openapi.TYPE_STRING,
+    started_day = openapi.Parameter("started_day", in_=openapi.IN_QUERY, type=openapi.TYPE_STRING,
                                description="Format yy-mm-dd")
     birthday = openapi.Parameter("birthday", in_=openapi.IN_QUERY, type=openapi.TYPE_STRING,
                                description="Format yy-mm-dd")
@@ -61,15 +61,15 @@ class StaffListView(APIView):
                                description="Profession")
     department = openapi.Parameter("department", in_=openapi.IN_QUERY, type=openapi.TYPE_INTEGER,
                                description="department")
-    @swagger_auto_schema(manual_parameters=[search,stardet_day,birthday,profession,department])
+    @swagger_auto_schema(manual_parameters=[search,started_day,birthday,profession,department])
     def get(self, request):
         try:
             staff = Staff.objects.all()
             if request.query_params.get("search", None):
                 search = request.query_params.get("search", None)
                 staff = staff.filter(Q(fullname=search)|Q(working_for__icontains=search)|Q(languages__icontains=search)|Q(another_country__icontains=search)|Q(deputy=search)|Q(party_member=search)|Q(prev_place=search))
-            if request.query_params.get("stardet_day", None):
-                stardet_day = request.query_params.get("stardet_day", None)
+            if request.query_params.get("started_day", None):
+                started_day = request.query_params.get("started_day", None)
                 staff = staff.filter(stardet_day=stardet_day)
             if request.query_params.get("birthday", None):
                 birthday = request.query_params.get("birthday", None)
@@ -91,18 +91,18 @@ class BirthdayView(APIView):
     def get(self, request):
         try:
             birthday = Staff.objects.all().only("birthday")
-            serializer = BithdaySerializer(birthday, many=True)
+            serializer = BirthdaySerializer(birthday, many=True)
             return Response(serializer.data)
         except Exception as e:
             raise ParseError(e)
 
 
-class StardetDayView(APIView):
+class StartedDayView(APIView):
 
     def get(self, request):
         try:
             started_day = Staff.objects.all().only("started_day")
-            serializer = StardetDaySerializer(started_day, many=True)
+            serializer = StartedDaySerializer(started_day, many=True)
             return Response(serializer.data)
         except Exception as e:
             raise ParseError(e)
@@ -142,4 +142,4 @@ class RegisterUserView(APIView):
             serializer = UserSerializerWithToken(user, many=False)
             return Response(serializer.data)
         except Exception as e:
-            raise ParseError(e) 
+            raise ParseError(e)

@@ -4,16 +4,16 @@ from django.contrib.auth.models import User
 from staff.models import *
 
 
-class BithdaySerializer(serializers.ModelSerializer):
+class BirthdaySerializer(serializers.ModelSerializer):
     class Meta:
         model = Staff
-        fields = ["bithday"]
+        fields = ["birthday"]
 
 
-class StardetDaySerializer(serializers.ModelSerializer):
+class StartedDaySerializer(serializers.ModelSerializer):
     class Meta:
         model = Staff
-        fields = ["stardet_day"]
+        fields = ["started_day"]
 
 
 class DepartmentSerializer(serializers.ModelSerializer):
@@ -56,7 +56,7 @@ class StaffListSerializer(serializers.ModelSerializer):
     profession = ProfessionSerializer()
     class Meta:
         model = Staff
-        fields = ["fullname", "department", "profession"]
+        fields = ["fullname", "department", "profession", "birthday", "started_day"]
 
 
 class StaffSerializer(serializers.ModelSerializer):
