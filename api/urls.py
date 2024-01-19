@@ -4,6 +4,7 @@ from api.staff.views import *
 
 
 urlpatterns = [
+    path("statistics/", StatisticView.as_view(), name="statistics"),
     path("birthday/", BirthdayView.as_view(), name="birthday"),
     path("started-day/", StartedDayView.as_view(), name="started-day"),
     path("user-profile/", UserProfileView.as_view(), name="user-profile"),

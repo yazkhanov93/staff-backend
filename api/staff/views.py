@@ -14,6 +14,19 @@ from .serializers import *
 from staff.models import *
 
 
+class StatisticView(APIView):
+    def get(self, request):
+        try:
+            staff=Staff.objects.all()
+            department = staff.filter(department__dep_name__icontains="kafedrasy").count()
+            gdech = staff.filter(department__dep_name__icontains="ylmy merkezi").count()
+            hb = staff.filter(department__dep_name__icontains="Hojalyk bölümi").count()
+            h = staff.filter(department__dep_name__icontains="Hünärmenler").count()
+            return Response({"Kafedralar":department,"'GDEÇ' ylmy merkezi":gdech, "Hojalyk bölümi":hb, "Hünärmenler":h, "Ähli işgärler":staff.count()})
+        except Exception as e:
+            raise  ParseError(e)
+
+
 class UserProfileView(APIView):
     permission_classes = [IsAuthenticated]
     def get(self, request):
