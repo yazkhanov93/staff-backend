@@ -22,7 +22,12 @@ class StatisticView(APIView):
             gdech = staff.filter(department__dep_name__icontains="ylmy merkezi").count()
             hb = staff.filter(department__dep_name__icontains="Hojalyk bölümi").count()
             h = staff.filter(department__dep_name__icontains="Hünärmenler").count()
-            return Response({"Kafedralar":department,"'GDEÇ' ylmy merkezi":gdech, "Hojalyk bölümi":hb, "Hünärmenler":h, "Ähli işgärler":staff.count()})
+            professor = staff.filter(profession__title__icontains="Professor").count()
+            seniorTeacher = staff.filter(profession__title__icontains="Uly mugallym").count()
+            teacher = staff.filter(profession__title__icontains="Mugallym").count()
+            interns = staff.filter(profession__title__icontains="Öwrenje mugallym").count()
+            allTeachers = professor + seniorTeacher + teacher + interns
+            return Response({"Kafedralar":department,"'GDEÇ' ylmy merkezi":gdech, "Hojalyk bölümi":hb, "Hünärmenler":h, "Ähli işgärler":staff.count(), "Professorlar":professor, "Uly mugallymlar":seniorTeacher, "Mugallym":teacher,"Öwrenje mugallymlar":interns, "Ähli mugallymlar":allTeachers})
         except Exception as e:
             raise  ParseError(e)
 
