@@ -12,6 +12,7 @@ from drf_yasg.utils import swagger_auto_schema
 
 from .serializers import *
 from staff.models import *
+import json
 
 
 
@@ -19,14 +20,21 @@ class StatisticView(APIView):
     def get(self, request):
         try:
             staff=Staff.objects.all()
-            profession = Profession.objects.all()
-            l = []
-            for i in staff:
-                if i.profession in profession:
-                    st = staff.filter(id=i.id).count()
-                    title=i.profession.title
-                    l.append({title:st})
-            return Response(l)
+            professor = staff.filter(profession__title__icontains="professor").count()
+            dosent = staff.filter(profession__title__icontains="dosent").count()
+            ylymlaryn_kondidaty = staff.filter(profession__title__icontains="Ylymlaryn kondidaty").count()
+            uly_mugallym = staff.filter(profession__title__icontains="Uly mugallym").count()
+            mugallym = staff.filter(profession__title__icontains="mugallym").count()
+            owreniji_mugallym = staff.filter(profession__title__icontains="Öwreniji mugallym").count()
+            p = [{"title":"Professor","quantity":professor},{"title":"Dosent", "quantity":dosent},{"title":"Ylymlaryn kondidaty","quantity":ylymlaryn_kondidaty},{"title":"Uly mugallym","quantity":uly_mugallym}, {"title":"Mugallym","quantity":mugallym}, {"title":"Öwreniji mugallym","quantity":owreniji_mugallym}]
+            all_staff = staff.count()
+            kafedralar = staff.filter(department__dep_name__icontains="kafedrasy").count()
+            ylmy_merkezi = staff.filter(department__dep_name__icontains="ylmy merkezi").count()
+            hojalyk_bolumi = staff.filter(department__dep_name__icontains="hojalyk bölümi").count()
+            hunarmenler = staff.filter(department__dep_name__icontains="hünärmen").count()
+            data = [{"title":"ähli işgärler", "quantity":all_staff}, {"title":"GDEÇ ylmy merkezi","quantity":ylmy_merkezi},{"title":"hojalyk bölümi","quantity":hojalyk_bolumi}, {"title":"hünärmenler","quantity":hunarmenler},{"title":"kafedralar","quantity":kafedralar}]
+            df = data + p
+            return Response(df)
         except Exception as e:
             raise  ParseError(e)
 
